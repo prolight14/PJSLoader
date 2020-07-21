@@ -140,6 +140,7 @@ var PJSLoader = {
         }
 
         var toDataURL = this.toDataURL;
+        var foundTimes = 0;
 
         var save = function(path)
         {
@@ -158,9 +159,13 @@ var PJSLoader = {
                 return;
             }
 
-            toDataURL(PJSCache.urls.proxy + PJSCache.urls.image + normalizedPath, function(dataUrl)
+            toDataURL(PJSCache.urls.proxy + PJSCache.urls.image + normalizedPath, function(dataUrl, notFound)
             {
-                imageCache[normalizedPath] = dataUrl;
+                if(!notFound)
+                {
+                    foundTimes++;
+                    imageCache[normalizedPath] = dataUrl;
+                }
 
                 paths.shift();
 
@@ -171,12 +176,15 @@ var PJSLoader = {
 
                 localStorage.setItem(PJSCache.imgCacheName, JSON.stringify(imageCache));
 
-                processing.draw = function()
+                if(foundTimes > 0)
                 {
-                    processing.background(0, 0, 0);
-                    processing.textAlign(processing.CENTER, processing.CENTER);
-                    processing.text("Images loaded\n Please refresh", 200, 60);
-                };
+                    processing.draw = function()
+                    {
+                        processing.background(0, 0, 0);
+                        processing.textAlign(processing.CENTER, processing.CENTER);
+                        processing.text("Images loaded\n Please refresh", 200, 60);
+                    };
+                }
             });
         };
 
@@ -202,7 +210,8 @@ var PJSLoader = {
         }
 
         var toDataURL = this.toDataURL;
- 
+        var foundTimes = 0;
+
         var save = function(path)
         {
             var normalizedPath = path.split(".")[0] + ".mp3";
@@ -220,9 +229,13 @@ var PJSLoader = {
                 return;
             }
 
-            toDataURL(PJSCache.urls.proxy + PJSCache.urls.sound + normalizedPath, function(dataUrl)
+            toDataURL(PJSCache.urls.proxy + PJSCache.urls.sound + normalizedPath, function(dataUrl, notFound)
             {
-                soundCache[normalizedPath] = dataUrl;
+                if(!notFound)
+                {
+                    foundTimes++;
+                    soundCache[normalizedPath] = dataUrl;
+                }
 
                 paths.shift();
 
@@ -233,12 +246,15 @@ var PJSLoader = {
 
                 localStorage.setItem(PJSCache.sndCacheName, JSON.stringify(soundCache));
 
-                processing.draw = function()
+                if(foundTimes > 0)
                 {
-                    processing.background(0, 0, 0);
-                    processing.textAlign(processing.CENTER, processing.CENTER);
-                    processing.text("Sounds loaded\n Please refresh", 200, 60);
-                };
+                    processing.draw = function()
+                    {
+                        processing.background(0, 0, 0);
+                        processing.textAlign(processing.CENTER, processing.CENTER);
+                        processing.text("Sounds loaded\n Please refresh", 200, 60);
+                    };
+                }
             });
         };
 
@@ -345,7 +361,7 @@ var PJSLoader = {
             var reader = new FileReader();
             reader.onloadend = function() 
             {
-                callback(reader.result);
+                callback(reader.result, xhr.status == 404);
             };
             reader.readAsDataURL(xhr.response);
         };
