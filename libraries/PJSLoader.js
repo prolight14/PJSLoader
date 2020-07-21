@@ -42,7 +42,7 @@ var PJSCache = {
         };
         processing.getImage = function(name) 
         {
-            return PJSCache.PImageCache[name.split(".")[0] + ".png"] || get(0, 0, 1, 1);
+            return PJSCache.PImageCache[name.split(".")[0] + ".png"] || processing.get(0, 0, 1, 1);
         };
 
         processing.Program = {
@@ -83,7 +83,7 @@ var PJSLoader = {
         this.loadResources(function()
         {
             var canvas = document.getElementById(canvasId);
-            console.log(PJSLoader.parse(sketchStr));
+            
             window.processing = new Processing(canvas, PJSLoader.parse(sketchStr));
         });
     },
