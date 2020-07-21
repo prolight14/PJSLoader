@@ -14,6 +14,7 @@ var PJSCache = {
         processing.background(255, 255, 255);
         processing.angleMode = "degrees";
         
+        processing.mouseClicked = function() {};
         processing.mousePressed = function() {};
         processing.mouseReleased = function() {};
         processing.mouseMoved = function() {};
@@ -57,6 +58,18 @@ var PJSCache = {
                     console.warn(equiv);
                 }
             },
+            runTest: function()
+            {
+
+            },
+            runTests: function()
+            {
+
+            },
+            settings: function()
+            {
+                
+            }
         };
 
         processing.debug = function()
