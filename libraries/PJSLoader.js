@@ -146,7 +146,7 @@ var PJSLoader = {
             var normalizedPath = path.split(".")[0] + ".png";
 
             // If the image cache already has it, then skip the loading...
-            if(imageCache.hasOwnProperty(normalizedPath))
+            if(imageCache[normalizedPath])
             {
                 paths.shift();
 
@@ -154,6 +154,8 @@ var PJSLoader = {
                 {
                     return save(paths[0]);
                 }
+
+                return;
             }
 
             toDataURL(PJSCache.urls.proxy + PJSCache.urls.image + normalizedPath, function(dataUrl)
@@ -168,6 +170,13 @@ var PJSLoader = {
                 }
 
                 localStorage.setItem(PJSCache.imgCacheName, JSON.stringify(imageCache));
+
+                processing.draw = function()
+                {
+                    processing.background(0, 0, 0);
+                    processing.textAlign(processing.CENTER, processing.CENTER);
+                    processing.text("Images loaded\n Please refresh", 200, 60);
+                };
             });
         };
 
@@ -199,7 +208,7 @@ var PJSLoader = {
             var normalizedPath = path.split(".")[0] + ".mp3";
 
             // If the sound cache already has it, then skip the loading...
-            if(soundCache.hasOwnProperty(normalizedPath))
+            if(soundCache[normalizedPath])
             {
                 paths.shift();
 
@@ -207,6 +216,8 @@ var PJSLoader = {
                 {
                     return save(paths[0]);
                 }
+
+                return;
             }
 
             toDataURL(PJSCache.urls.proxy + PJSCache.urls.sound + normalizedPath, function(dataUrl)
@@ -222,6 +233,12 @@ var PJSLoader = {
 
                 localStorage.setItem(PJSCache.sndCacheName, JSON.stringify(soundCache));
 
+                processing.draw = function()
+                {
+                    processing.background(0, 0, 0);
+                    processing.textAlign(processing.CENTER, processing.CENTER);
+                    processing.text("Sounds loaded\n Please refresh", 200, 60);
+                };
             });
         };
 
