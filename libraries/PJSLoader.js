@@ -82,6 +82,27 @@ var PJSCache = {
 var PJSLoader = {
     pjs: new Processing(),
 
+    imagesLoadedNotif: function()
+    {
+        processing.draw = function()
+        {
+            processing.background(0, 0, 0);
+            processing.textAlign(processing.CENTER, processing.CENTER);
+            processing.fill(230, 230, 255);
+            processing.text("Images loaded\n Please refresh", 200, 60);
+        };
+    },
+    soundsLoadedNotif: function()
+    {
+        processing.draw = function()
+        {
+            processing.background(0, 0, 0);
+            processing.textAlign(processing.CENTER, processing.CENTER);
+            processing.fill(230, 230, 255);
+            processing.text("Sounds loaded\n Please refresh", 200, 60);
+        };
+    },
+
     loadSketch: function(canvasId, sketch)
     {
         var args = Array.prototype.slice.call(arguments);
@@ -153,6 +174,7 @@ var PJSLoader = {
         }
 
         var toDataURL = this.toDataURL;
+        var imagesLoadedNotif = this.imagesLoadedNotif;
         var foundTimes = 0;
 
         var save = function(path)
@@ -170,6 +192,11 @@ var PJSLoader = {
                 }
 
                 localStorage.setItem(PJSCache.imgCacheName, JSON.stringify(imageCache));
+
+                if(foundTimes > 0)
+                {
+                   imagesLoadedNotif();
+                }
 
                 return;
             }
@@ -193,12 +220,7 @@ var PJSLoader = {
 
                 if(foundTimes > 0)
                 {
-                    processing.draw = function()
-                    {
-                        processing.background(0, 0, 0);
-                        processing.textAlign(processing.CENTER, processing.CENTER);
-                        processing.text("Images loaded\n Please refresh", 200, 60);
-                    };
+                    imagesLoadedNotif();
                 }
             });
         };
@@ -225,6 +247,7 @@ var PJSLoader = {
         }
 
         var toDataURL = this.toDataURL;
+        var soundsLoadedNotif = this.soundsLoadedNotif;
         var foundTimes = 0;
 
         var save = function(path)
@@ -242,6 +265,11 @@ var PJSLoader = {
                 }
 
                 localStorage.setItem(PJSCache.sndCacheName, JSON.stringify(soundCache));
+
+                if(foundTimes > 0)
+                {
+                    soundsLoadedNotif();
+                }
 
                 return;
             }
@@ -265,12 +293,7 @@ var PJSLoader = {
 
                 if(foundTimes > 0)
                 {
-                    processing.draw = function()
-                    {
-                        processing.background(0, 0, 0);
-                        processing.textAlign(processing.CENTER, processing.CENTER);
-                        processing.text("Sounds loaded\n Please refresh", 200, 60);
-                    };
+                    soundsLoadedNotif();
                 }
             });
         };
