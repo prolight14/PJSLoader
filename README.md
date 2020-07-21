@@ -28,4 +28,4 @@ function secondary()
 PJSLoader.loadSketch("canvas", main, secondary);
 ```
 
-On a side note you can also drop `PJSLOader.js` and `processing.js` in a program of yours and use it there!
+On a side note you can also drop `PJSLoader.js` and `processing.js` in a program of yours and use it there!
