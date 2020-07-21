@@ -156,6 +156,8 @@ var PJSLoader = {
                     return save(paths[0]);
                 }
 
+                localStorage.setItem(PJSCache.imgCacheName, JSON.stringify(imageCache));
+
                 return;
             }
 
@@ -225,6 +227,8 @@ var PJSLoader = {
                 {
                     return save(paths[0]);
                 }
+
+                localStorage.setItem(PJSCache.sndCacheName, JSON.stringify(soundCache));
 
                 return;
             }
