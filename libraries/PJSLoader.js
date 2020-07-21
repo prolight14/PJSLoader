@@ -6,7 +6,7 @@ var PJSCache = {
     urls: {
         proxy: "https://cors-anywhere.herokuapp.com/", 
         sound: "https://raw.githubusercontent.com/Khan/live-editor/master/sounds/",
-        image: "https://raw.githubusercontent.com/Khan/live-editor/master/images/"
+        image: "https://www.kasandbox.org/third_party/javascript-khansrc/live-editor/build/images/"
     },
     template: function()
     {
@@ -145,6 +145,17 @@ var PJSLoader = {
         {
             var normalizedPath = path.split(".")[0] + ".png";
 
+            // If the image cache already has it, then skip the loading...
+            if(imageCache.hasOwnProperty(normalizedPath))
+            {
+                paths.shift();
+
+                if(paths.length !== 0)
+                {
+                    return save(paths[0]);
+                }
+            }
+
             toDataURL(PJSCache.urls.proxy + PJSCache.urls.image + normalizedPath, function(dataUrl)
             {
                 imageCache[normalizedPath] = dataUrl;
@@ -182,10 +193,21 @@ var PJSLoader = {
         }
 
         var toDataURL = this.toDataURL;
-
+ 
         var save = function(path)
         {
             var normalizedPath = path.split(".")[0] + ".mp3";
+
+            // If the sound cache already has it, then skip the loading...
+            if(soundCache.hasOwnProperty(normalizedPath))
+            {
+                paths.shift();
+
+                if(paths.length !== 0)
+                {
+                    return save(paths[0]);
+                }
+            }
 
             toDataURL(PJSCache.urls.proxy + PJSCache.urls.sound + normalizedPath, function(dataUrl)
             {
@@ -199,6 +221,7 @@ var PJSLoader = {
                 }
 
                 localStorage.setItem(PJSCache.sndCacheName, JSON.stringify(soundCache));
+
             });
         };
 
