@@ -120,6 +120,17 @@ var PJSLoader = {
             
             window.processing = new Processing(canvas, PJSLoader.parse(sketchStr));
         });
+
+        window.setTimeout(function()
+        {
+            if(!window.processing)
+            {
+                var canvas = document.getElementById(canvasId);
+            
+                window.processing = new Processing(canvas, PJSLoader.parse(sketchStr));
+            }
+        }, 
+        200);
     },
 
     // Resource loader
