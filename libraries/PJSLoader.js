@@ -102,6 +102,16 @@ var PJSLoader = {
             processing.text("Sounds loaded\n Please refresh", 200, 60);
         };
     },
+    errorLoadingNotif: function()
+    {
+        processing.draw = function()
+        {
+            processing.background(0, 0, 0);
+            processing.textAlign(processing.CENTER, processing.CENTER);
+            processing.fill(230, 230, 255);
+            processing.text("Things haven't loaded correctly,\n please come back later or try again", 200, 60);
+        };
+    },
 
     loadSketch: function(canvasId, sketch)
     {
@@ -121,6 +131,9 @@ var PJSLoader = {
             window.processing = new Processing(canvas, PJSLoader.parse(sketchStr));
         });
 
+
+        // In case things get messed up
+        var _this = this;
         window.setTimeout(function()
         {
             if(!window.processing)
@@ -128,9 +141,16 @@ var PJSLoader = {
                 var canvas = document.getElementById(canvasId);
             
                 window.processing = new Processing(canvas, PJSLoader.parse(sketchStr));
+
+                localStorage.removeItem(PJSCache.imgCacheName);
+                localStorage.removeItem(PJSCache.sndCacheName);
+
+                _this.getPathsToLoad(sketchStr);
+                _this.saveResources();
+                _this.errorLoadingNotif();
             }
         }, 
-        200);
+        1000);
     },
 
     // Resource loader
