@@ -6,7 +6,7 @@ var PJSCache = {
     urls: {
         proxy: "https://cors-anywhere.herokuapp.com/", 
         sound: "https://raw.githubusercontent.com/Khan/live-editor/master/sounds/",
-        image: "https://www.kasandbox.org/third_party/javascript-khansrc/live-editor/build/images/"
+        image: "https://raw.githubusercontent.com/Khan/live-editor/master/images/"
     },
     template: function()
     {
